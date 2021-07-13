@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jasa_app/views/auth/auth.dart';
 import 'package:jasa_app/views/home/index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:get/get.dart';
+
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -24,9 +24,9 @@ class _SplashScreenState extends State<SplashScreen> {
     var duration = const Duration(seconds: 3);
     return Timer(duration, () {
       if (userID == null) {
-        Get.to(Auth());
+        // Get.to(Auth());
       } else if (userID != null && userRole == "user") {
-        Get.off(Index());
+        // Get.off(Index());
       } else if (userID != null && userRole == "vendor") {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => Auth()));

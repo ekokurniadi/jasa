@@ -4,12 +4,12 @@
 
 import 'dart:convert';
 
-List<Slider> sliderFromJson(String str) => List<Slider>.from(json.decode(str).map((x) => Slider.fromJson(x)));
+List<Sliders> sliderFromJson(String str) => List<Sliders>.from(json.decode(str).map((x) => Sliders.fromJson(x)));
 
-String sliderToJson(List<Slider> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String sliderToJson(List<Sliders> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Slider {
-    Slider({
+class Sliders {
+    Sliders({
         this.albumId,
         this.id,
         this.title,
@@ -23,7 +23,7 @@ class Slider {
     String url;
     String thumbnailUrl;
 
-    factory Slider.fromJson(Map<String, dynamic> json) => Slider(
+    factory Sliders.fromJson(Map<String, dynamic> json) => Sliders(
         albumId: json["albumId"],
         id: json["id"],
         title: json["title"],

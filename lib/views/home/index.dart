@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jasa_app/controllers/Slider.dart';
-import 'package:get/get.dart';
+
 
 class Index extends StatefulWidget {
   @override
@@ -16,11 +17,14 @@ class _IndexState extends State<Index> {
   int _currentPromo = 0;
   final PageController _sliderControlller = PageController(initialPage: 0);
   final PageController _promoControlller = PageController(initialPage: 0);
-  final SliderController _slider = Get.put(SliderController());
-  
+
+  int bottomNavBarIndex;
+  PageController _halamanController;
   @override
   void initState() {
     super.initState();
+    bottomNavBarIndex = 0;
+    _halamanController = PageController(initialPage: bottomNavBarIndex);
     _getData();
     ntf = 1;
     Timer.periodic(Duration(seconds: 5), (Timer timer) {
@@ -66,7 +70,7 @@ class _IndexState extends State<Index> {
 
   List dataList = new List();
   _getData() async {
-    var data = _slider.getData();
+    var data = SliderController().getData();
     await data.then((value) {
       setState(() {
         dataList = value;
@@ -79,6 +83,7 @@ class _IndexState extends State<Index> {
     return Scaffold(
       backgroundColor: Color(0xFFf5f5f5),
       resizeToAvoidBottomInset: true,
+      extendBody: true,
       appBar: AppBar(
         flexibleSpace: FlexibleSpaceBar(
             title: Padding(
@@ -140,6 +145,49 @@ class _IndexState extends State<Index> {
         ),
         elevation: 0,
         backgroundColor: Color(0xFF00b14f),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(top: 18.0),
+        child: BottomNavyBar(
+          showElevation: true,
+          itemCornerRadius: 24,
+          selectedIndex: bottomNavBarIndex,
+          items: [
+             BottomNavyBarItem(
+                icon: Icon(Icons.pages),
+                title: Text('Home',
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+                activeColor: Color(0xFF00b14f),
+                inactiveColor: Color(0xFF70747F),
+                textAlign: TextAlign.start),
+             BottomNavyBarItem(
+                icon: Icon(Icons.shopping_cart),
+                title: Text('Marketplace',
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+                activeColor: Color(0xFF00b14f),
+                inactiveColor: Color(0xFF70747F),
+                textAlign: TextAlign.start),
+             BottomNavyBarItem(
+                icon: Icon(Icons.departure_board),
+                title: Text('Orders',
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+                activeColor: Color(0xFF00b14f),
+                inactiveColor: Color(0xFF70747F),
+                textAlign: TextAlign.start),
+             BottomNavyBarItem(
+                icon: Icon(Icons.people),
+                title: Text('Account',
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+                activeColor: Color(0xFF00b14f),
+                inactiveColor: Color(0xFF70747F),
+                textAlign: TextAlign.start),
+          ],
+          onItemSelected: (index) => setState(() {
+            bottomNavBarIndex = index;
+            _halamanController.animateToPage(index,
+                duration: Duration(milliseconds: 300), curve: Curves.ease);
+          }),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
